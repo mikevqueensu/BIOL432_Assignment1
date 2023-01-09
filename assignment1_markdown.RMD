@@ -1,0 +1,27 @@
+---
+title: "Assignment1"
+author: "Mike Vermeulen"
+date: "2023-01-09"
+output: html_document
+---
+
+
+
+```{r}
+
+data.table::fread("measurements.csv", data.table = F) -> df 
+
+# arrange data
+df %>% dplyr::arrange(Organism,Observer,-Volume) -> df
+
+# table of mean volumes
+df %>% dplyr::group_by(Organism) %>% dplyr::summarise(`mean Volume` = mean(Volume)) %>% knitr::kable(format = "simple")
+
+# combo 
+df %>% dplyr::group_by(Organism, Observer) %>% dplyr::summarise(sample_size = dplyr::n()) %>% knitr::kable(format = "simple")
+
+ggpubr::ggboxplot(df, x = "Organism", y = "Volume", fill = "Organism", palette = "aaas") %>% ggpubr::ggpar(x.text.angle = 45, legend = "none")
+
+ggpubr::gghistogram(df, x = "Volume", fill = "Organism", bins = 100) %>% ggpubr::facet(facet.by = "Organism", ncol = 1) -> p; ggpubr::ggpar(p, legend = "none")
+
+```

@@ -4,7 +4,7 @@ args = commandArgs(trailingOnly=TRUE)
 
 
 # function that takes a file name as an argument and adds the volume column
-f1 <- function(x = args[1]){
+f1 <- function(x){
   
   # read in measurements.csv
   data.table::fread(x, data.table = F) -> df
@@ -16,6 +16,6 @@ f1 <- function(x = args[1]){
 }
 
 
-f1(args[1])
+f1(x = args[1])
 
 
